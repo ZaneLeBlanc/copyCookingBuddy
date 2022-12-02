@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="author" content="">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <link rel = "stylesheet" href="/styles.css" type="text/css">
+
+  <!-- Linking font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet"> 
+   
+   <style>
+    </style>
+</head>
+
+<body>
+  <!--header-->
+  <Header class="header">
+    <a href="/home.html" class="logo">CookingBuddy</a>
+    
+    <div class="links">
+      <a href="/recipe" class="header_link">Upload</a>
+      <button class="button-3" onclick="location.href='/register.html'" type="button">Register</button>
+    </div>
+  </Header>
+
+<!--recipe name container-->
+  <div class="recipe-title-box">
+    <h1 id="recipe-title"></h1>
+  </div>
+
+<!--box containing entire recipe-->
+  <div class="recipe-box">
+
+    <div class="recipe-photos-container">
+      <img src="" id="recipe-img" class="img-recipe"></img>
+    </div>
+
+    <div class="text-items-container">
+      <div class="price-and-ingredients-container">
+
+        <div class="price-container">
+          <h2 class="recipe-h2">Price</h2>
+          <div id="price-link" class="price-link"></div>
+        </div>
+
+        <div class="ingredients-container">
+          <h2 class="recipe-h2">Ingredients</h2> 
+          <div id="ingredients-link" class="ingredients-link"></div>
+        </div>
+
+      </div>
+
+      <!--container for steps-->
+      <div class="steps-container">
+        <h2 class="recipe-h2">Steps</h2>
+        <div id="steps-link" class="steps-link"></div>
+      </div>
+
+    </div>  
+  </div>
+
+
+
+  <script>
+    const id = window.location.pathname.split("/")[2]
+    const Http = new XMLHttpRequest();
+    const url=`http://localhost:3000/recipe-api/getOne/${id}`;
+    Http.open('GET', url)
+    Http.send()
+    Http.onreadystatechange = (e) => {
+      if(Http.readyState == XMLHttpRequest.DONE) {
+        var res = JSON.parse(Http.responseText)
+        fillInData(res)
+      }
+    }
+
+    function fillInData(data) {
+      document.getElementById('recipe-title').innerText = data.title
+      document.getElementById('recipe-img').src = data.images
+      document.getElementById('price-link').innerText = '$' + data.price
+      document.getElementById('ingredients-link').innerText = data.ingredients
+      document.getElementById('steps-link').innerText = data.steps
+    }
+  </script>
+</body>
+
+</html>

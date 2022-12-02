@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="author" content="">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel = "stylesheet" href="/styles.css" type="text/css">
+
+  <!-- Linking font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet"> 
+</head>
+
+
+
+<body>
+
+  <Header class="header">
+    <a href="/home.html" class="logo">CookingBuddy</a>
+    
+    <div class="links">
+      <a href="/recipe" class="header_link">Upload</a>
+      <button class="button-3" onclick="location.href='/register.html'" type="button">Register</button>
+    </div>
+  </Header>
+
+  <!-- tan box around everything-->
+  <div class="page">
+    <div class="box">
+  <!--action="" determines where data is sent -->
+  <h1 id="createtext">Create an Account</h1>
+  <form class="form" onsubmit="register(this.form); return false;">
+    <label for = "email">Email</label>
+    <br>
+    <input type="text" id ="email" name = "email" value = ""></input>
+    <br>
+
+    <div class="space"></div>
+
+    <label for = "phoneNumber">Phone Number</label>
+    <br>
+    <input type="text" id = "phoneNumber" name = "phoneNumber" value = ""></input>
+    <br>
+
+    <div class="space"></div>
+
+    <label for ="firstName">First Name</label>
+    <br>
+    <input type="text" id = "firstName" name = "firstName" value = ""></input>
+    <br>
+
+    <div class="space"></div>
+
+    <label for ="lastName">Last Name</label>
+    <br>
+    <input type="text" id = "lastName" name = "lastName" value = ""></input>
+    <br>
+
+    <div class="space"></div>
+
+    <label for ="password">Password</label>
+    <br>
+    <input type="password" id = "password" name = "password" value = ""></input>
+    <br>
+
+    <div class="space"></div>
+
+    <label for = "password2">Re-enter Password</label>
+    <br>
+    <input type="password" id = "password2" name = "password2" value = ""></input>
+    <br>
+
+    <div class="space"></div>
+    <button class="button-3" type="button" id="register-button" onClick="register(this.form)">Submit</button>
+    <div class="res" id="res"></div>
+  </form>
+
+
+  </div> <!--box-->
+  </div> <!--page-->
+
+  <script>
+
+    function register(form) {
+     
+      var emailElement = form.email.value;
+      console.log(emailElement)
+      var phoneNumberElement = form.phoneNumber.value;
+      console.log(phoneNumberElement)
+      var firstNameElement = form.firstName.value;
+      console.log(firstNameElement)
+      var lastNameElement = form.lastName.value;
+      console.log(lastNameElement)
+      var passwordElementOne = form.password.value;
+      console.log(passwordElementOne)
+      var passwordElementTwo = form.password2.value;
+      console.log(passwordElementTwo)
+      const Http = new XMLHttpRequest();
+
+      
+     const url = 'http://localhost:3000/register-api/post';
+     let data = {
+     "email": emailElement,
+     "phoneNumber": phoneNumberElement,
+     "firstName": firstNameElement,
+     "lastName": lastNameElement,
+     "password": passwordElementOne,
+     "passwordConfirmation": passwordElementTwo
+    }
+     Http.open("POST", url);
+     Http.setRequestHeader("Accept","application/json")
+     Http.setRequestHeader("Content-Type","application/json")
+     Http.send(JSON.stringify(data));
+
+     Http.onreadystatechange = (e) => {
+      if(Http.status == 200) {
+        var resText = document.getElementById('res')
+        resText.innerText = "Success"
+        resText.style.color = 'green'
+      } else {
+        var resText = document.getElementById('res')
+        resText.innerText = "Error"
+        resText.style.color = 'red'
+      }
+    }
+
+
+    }
+  </script>
+</body>
+
+</html>
